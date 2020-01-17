@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="budgetsummaryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="budgetsummaryEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Expense" EntityType="budgetsummaryModel.Expense" />
+    <EntitySet Name="sysdiagrams" EntityType="budgetsummaryModel.sysdiagrams" />
+    <EntitySet Name="Income" EntityType="budgetsummaryModel.Income" />
+    <EntitySet Name="Categorys" EntityType="budgetsummaryModel.Categorys" />
+    <AssociationSet Name="FK_Expense_Categorys" Association="budgetsummaryModel.FK_Expense_Categorys">
+      <End Role="Categorys" EntitySet="Categorys" />
+      <End Role="Expense" EntitySet="Expense" />
+    </AssociationSet>
+    <AssociationSet Name="CategoryExpense" Association="budgetsummaryModel.CategoryExpense">
+      <End Role="Categorys" EntitySet="Categorys" />
+      <End Role="Expense" EntitySet="Expense" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Expense">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryID" Type="Int32" Nullable="false" />
+    <Property Name="Amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="Note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Categorys" Relationship="budgetsummaryModel.FK_Expense_Categorys" FromRole="Expense" ToRole="Categorys" />
+    <NavigationProperty Name="Categorys1" Relationship="budgetsummaryModel.CategoryExpense" FromRole="Expense" ToRole="Categorys" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Income">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="Note" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="Categorys">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Icon" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Expense" Relationship="budgetsummaryModel.FK_Expense_Categorys" FromRole="Categorys" ToRole="Expense" />
+    <NavigationProperty Name="Expense1" Relationship="budgetsummaryModel.CategoryExpense" FromRole="Categorys" ToRole="Expense" />
+  </EntityType>
+  <Association Name="FK_Expense_Categorys">
+    <End Type="budgetsummaryModel.Categorys" Role="Categorys" Multiplicity="1" />
+    <End Type="budgetsummaryModel.Expense" Role="Expense" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categorys">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Expense">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CategoryExpense">
+    <End Type="budgetsummaryModel.Categorys" Role="Categorys" Multiplicity="*" />
+    <End Type="budgetsummaryModel.Expense" Role="Expense" Multiplicity="0..1" />
+  </Association>
+</Schema>

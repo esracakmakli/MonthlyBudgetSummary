@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Question3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="Question3Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categorys" EntityType="Question3Model.Categorys" />
+    <EntitySet Name="Revenue" EntityType="Question3Model.Revenue" />
+    <EntitySet Name="Spending" EntityType="Question3Model.Spending" />
+    <EntitySet Name="sysdiagrams" EntityType="Question3Model.sysdiagrams" />
+    <AssociationSet Name="FK_Spending_Categorys" Association="Question3Model.FK_Spending_Categorys">
+      <End Role="Categorys" EntitySet="Categorys" />
+      <End Role="Spending" EntitySet="Spending" />
+    </AssociationSet>
+    <EntitySet Name="RevenueCategorys" EntityType="Question3Model.RevenueCategorys" />
+    <AssociationSet Name="FK_Revenue_RevenueCategorys" Association="Question3Model.FK_Revenue_RevenueCategorys">
+      <End Role="RevenueCategorys" EntitySet="RevenueCategorys" />
+      <End Role="Revenue" EntitySet="Revenue" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Categorys">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TotalAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Spending" Relationship="Question3Model.FK_Spending_Categorys" FromRole="Categorys" ToRole="Spending" />
+  </EntityType>
+  <EntityType Name="Revenue">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryID" Type="Int32" Nullable="false" />
+    <Property Name="Amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="Explanation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="RevenueCategorys" Relationship="Question3Model.FK_Revenue_RevenueCategorys" FromRole="Revenue" ToRole="RevenueCategorys" />
+  </EntityType>
+  <EntityType Name="Spending">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryID" Type="Int32" Nullable="false" />
+    <Property Name="Amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+    <Property Name="Explanation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Categorys" Relationship="Question3Model.FK_Spending_Categorys" FromRole="Spending" ToRole="Categorys" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Spending_Categorys">
+    <End Type="Question3Model.Categorys" Role="Categorys" Multiplicity="1" />
+    <End Type="Question3Model.Spending" Role="Spending" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categorys">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Spending">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="RevenueCategorys">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TotalAmount" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Icon" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Revenue" Relationship="Question3Model.FK_Revenue_RevenueCategorys" FromRole="RevenueCategorys" ToRole="Revenue" />
+  </EntityType>
+  <Association Name="FK_Revenue_RevenueCategorys">
+    <End Type="Question3Model.RevenueCategorys" Role="RevenueCategorys" Multiplicity="1" />
+    <End Type="Question3Model.Revenue" Role="Revenue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RevenueCategorys">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Revenue">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
