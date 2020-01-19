@@ -13,11 +13,15 @@ namespace Question3.Controllers
         public ActionResult Index()
         {
 
+            DateTime date = DateTime.Today;
+            int month = date.Month;
+
             //linq to sql for total expense amount
-            var totalExpense =db.Expense.Sum(s=>s.Amount);
+            var totalExpense = db.Expense.Where(s => s.Date.Value.Month == month).Sum(s => s.Amount);
             ViewData["totalexpense"] = totalExpense;
 
-            var totalIncome = db.Income.Sum(s => s.Amount);
+
+            var totalIncome = db.Income.Where(s => s.Date.Value.Month == month).Sum(s => s.Amount);
             ViewData["totalincome"] = totalIncome;
 
             var totalbudget = totalIncome - totalExpense;
@@ -69,7 +73,7 @@ namespace Question3.Controllers
         }
         public ActionResult Delete(int? id)
         {
-            //there is no problem in the code but I couldn't solve the problem in the view 
+           
             if (id == null)
             {
                 return HttpNotFound();

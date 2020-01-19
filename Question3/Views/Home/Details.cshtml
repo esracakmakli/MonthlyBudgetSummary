@@ -45,7 +45,7 @@
                         <td style="padding-right:80px">
                             @Html.DisplayFor(modelItem => item1.Date)
                         </td>
-                        <td><a id="modalLink" class="btn btn-warning btn-sm pull-left" onclick="deleteExpense(@item1.id)" style="margin-right:50px">Delete</a></td>
+                        <td><a id="modalLink" class="btn btn-warning btn-sm pull-left" href="/Home/Delete?id=@item1.id" onclick="return confirm();" style="margin-right:50px">Delete</a></td>
                         <td><a class="btn btn-danger btn-sm pull-left" onclick="javaSend('@Url.Action("Edit","Home",new { id=item1.id})')">Edit</a></td>
                     </tr>
 
@@ -56,17 +56,7 @@
 </body>
 </html>
 
-<script>
-    //have something wrong here ://
-    function deleteExpense(id) {
-        var confirmation = confirm("Are you sure?");
-        if (confirmation) {
-            var link = "/Home/Delete/" + id;
-            $("modalLink").Attr("href", link);
-        }
-        return confirmation;
-    }
-</script>
+
 <script>
     function javaSend(url) {
         window.location = url;
