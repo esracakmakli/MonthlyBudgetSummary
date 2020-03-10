@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Question3.Models.Categorys>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <div style="float:left">
+        <div  style="float:left;margin-left:200px;margin-top:150px">
+            <div>
+                <a class="btn btn-sm pull-left" href="/Home/AddIncome" style="margin-right:50px;background-color:forestgreen;color:white">Add Income</a>             
+            </div>
+            <div style="padding-top:100px">
+                <a ><h4 style="color:black">Income Amount: </h4> <h1 style="color:forestgreen">@ViewData["totalincome"]</h1></a>
+                <a class="btn btn-success btn-sm pull-left" href="/Home/Incomes/">Edit</a>
+            </div>
+        </div>
+
+        <div  style="float:left;margin-top:20px;margin-left:130px">
+            <div>
+                <table style="">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="padding-right:40px">
+                                    @if (item.Icon == null)
+                                    {
+                                        <img src="~/Icon/general-icon.png" />
+
+                                    }
+                                    else
+                                    {
+                                        <img src="@item.Icon" width="40" height="40" />
+                                    }
+                                </td>
+                                <td style="padding-right:40px">
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td style="padding-right:40px">
+
+                                    @using Question3.Models
+                                    @{
+                                        budgetsummaryEntities db = new budgetsummaryEntities();                                     
+                                        var categorytotal = db.Expense.Where(s => s.CategoryID == item.id).Sum(s => s.Amount);
+                                    }
+                                    @categorytotal
+                                </td>
+                                <td>
+                                    <a onclick="javaSend('@Url.Action("Details","Home",new { id=item.id})')" style="background-color:dodgerblue;color:white" class="btn btn-sm pull-left">Details</a>
+                                </td>
+                            </tr>
+                                        }
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <div style="margin-top:20px;margin-left:100px">
+                    <a><h4 style="color:black">Total Budget: </h4><h2 style="color:blueviolet">@ViewData["totalbudget"]</h2></a>
+                </div>
+            </div>          
+        </div>
+
+        <div  style="float:left;margin-top:150px;margin-left:150px">          
+                <div>
+                    <a class="btn btn-danger btn-sm pull-left" href="/Home/AddExpense">Add Expense</a>
+                </div>
+                <div style="padding-top:100px">
+                    <a><h4 style="color:black">Expense Amount :</h4> <h1 style="color:red">@ViewData["totalexpense"]</h1></a>
+            </div>       
+        </div>
+    </div>
+   
+</body>
+</html>
+
+<script>
+    function javaSend(url) {
+        window.location = url;
+    }
+</script>

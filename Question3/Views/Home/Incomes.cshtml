@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Question3.Models.Income>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Incomes</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <table style="margin-left:350px;margin-top:50px">
+            <thead>
+                <tr>
+                   
+                    <th>Salary</th>
+                    <th>Note</th>
+                    <th>Date</th>
+                    <th>Delete</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item1 in Model)
+            {
+                    <tr>
+                        <td style="padding-right:80px">
+                            @Html.DisplayFor(modelItem => item1.Amount)
+                        </td>
+                        <td style="padding-right:80px">
+                            @Html.DisplayFor(modelItem => item1.Note)
+                        </td>
+                        <td style="padding-right:80px">
+                            @Html.DisplayFor(modelItem => item1.Date)
+                        </td>
+                        <td><a id="modalLink" class="btn btn-warning btn-sm pull-left" href="/Home/DeleteIncome?id=@item1.id"  onclick="return confirm();" style="margin-right:50px">Delete</a></td>
+                        <td><a class="btn btn-danger btn-sm pull-left" onclick="javaSend('@Url.Action("EditIncomes","Home",new { id=item1.id})')">Edit</a></td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    function javaSend(url) {
+        window.location = url;
+    }
+</script>
